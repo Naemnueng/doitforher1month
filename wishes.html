@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wishes 🌟 | My Melody Anniversary</title>
+  <meta name="description" content="ความปรารถนาดีและความฝันสำหรับทุกปีที่จะมาถึง"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .wishes-hero {
+      padding: 140px 24px 70px; text-align: center;
+      background: radial-gradient(ellipse 80% 60% at 50% 55%, rgba(244,114,182,0.11) 0%, transparent 70%),
+                  var(--gradient-hero);
+    }
+
+    /* Wish cards grid */
+    .wishes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      margin-bottom: 60px;
+    }
+
+    .wish-card {
+      background: var(--white);
+      border: 2px solid rgba(244,114,182,0.15);
+      border-radius: 24px; padding: 34px 28px;
+      box-shadow: 0 8px 28px rgba(219,39,119,0.07);
+      text-align: center;
+      transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+      position: relative; overflow: hidden;
+    }
+    .wish-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--gradient-btn); border-radius: 24px 24px 0 0;
+    }
+    .wish-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(219,39,119,0.35);
+      box-shadow: 0 24px 56px rgba(219,39,119,0.15);
+    }
+
+    .wish-icon { font-size: 2.8rem; margin-bottom: 16px; display: block; animation: float 3s ease-in-out infinite; }
+    .wish-card:nth-child(2) .wish-icon { animation-delay:.5s; }
+    .wish-card:nth-child(3) .wish-icon { animation-delay:1s; }
+    .wish-card:nth-child(4) .wish-icon { animation-delay:1.5s; }
+    .wish-card:nth-child(5) .wish-icon { animation-delay:.8s; }
+    .wish-card:nth-child(6) .wish-icon { animation-delay:1.3s; }
+
+    .wish-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; color: var(--pink-deep); font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .wish-text { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+
+    /* Interactive wish-making */
+    .wish-maker {
+      background: var(--white);
+      border: 2px solid rgba(244,114,182,0.2);
+      border-radius: 28px; padding: 44px 40px;
+      text-align: center; max-width: 600px; margin: 0 auto;
+      box-shadow: 0 16px 48px rgba(219,39,119,0.1);
+    }
+
+    .wish-maker-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; color: var(--pink-deep); margin-bottom: 8px;
+    }
+    .wish-maker-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 28px; }
+
+    .wish-input {
+      width: 100%;
+      border: 2px solid rgba(244,114,182,0.3);
+      border-radius: 14px; padding: 16px 20px;
+      font-size: 0.97rem; font-family: 'Nunito', sans-serif;
+      color: var(--dark); background: var(--pink-pale);
+      outline: none; resize: vertical; min-height: 120px;
+      transition: border-color 0.3s;
+    }
+    .wish-input:focus { border-color: var(--pink); }
+    .wish-input::placeholder { color: rgba(155,77,138,0.45); }
+
+    .wish-submit {
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    .wishes-list {
+      margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    }
+
+    .wish-bubble {
+      background: var(--pink-soft);
+      border: 2px solid rgba(244,114,182,0.25);
+      border-radius: 50px; padding: 8px 18px;
+      font-size: 0.88rem; color: var(--pink-deep); font-weight: 600;
+      animation: bounce-in 0.4s ease;
+    }
+
+    /* countdown to next anniversary */
+    .next-anni {
+      background: var(--gradient-btn);
+      border-radius: 24px; padding: 36px 32px;
+      text-align: center; color: var(--white); margin-top: 70px;
+      box-shadow: var(--shadow-btn);
+      position: relative; overflow: hidden;
+    }
+    .next-anni::before {
+      content: '🌸 🎀 🌸';
+      position: absolute; top: 12px; right: 20px; font-size: 1.2rem; opacity: 0.3;
+    }
+    .next-anni-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; opacity: 0.8; margin-bottom: 8px; }
+    .next-anni-days { font-family: 'Pacifico', cursive; font-size: 3.5rem; }
+    .next-anni-sub { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; }
+
+    @media (max-width: 600px) {
+      .wish-maker { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+  <nav>
+    <a href="index.html" class="logo">🎀 My Melody</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <ul id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="letter.html">Love Letter</a></li>
+      <li><a href="wishes.html">Wishes</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="wishes-hero dot-bg">
+      <p class="section-eyebrow">🌟 Wishes</p>
+      <img src="images/melody_wishes.png" alt="My Melody" style="width:clamp(120px,22vw,200px);object-fit:contain;filter:drop-shadow(0 8px 24px rgba(219,39,119,0.22));animation:float 3.5s ease-in-out infinite;margin-bottom:10px;"/>
+      <div style="font-family:'Dancing Script',cursive;font-size:clamp(2.8rem,7vw,5.5rem);color:var(--pink-deep);">
+        ความปรารถนาดี
+      </div>
+      <p style="margin-top:14px;color:var(--muted);max-width:460px;margin-left:auto;margin-right:auto;line-height:1.75;font-size:0.96rem;">
+        ความฝันและความหวังสำหรับทุกปีที่จะมาถึงด้วยกัน 💕
+      </p>
+    </section>
+
+    <section class="section">
+
+      <!-- Wish cards -->
+      <div class="section-header reveal">
+        <p class="section-eyebrow">🎀 My Wishes for You</p>
+        <h2 class="section-title">ขอพรให้เธอ <em>ตลอดไป</em></h2>
+      </div>
+
+      <div class="wishes-grid">
+        <div class="wish-card reveal">
+          <span class="wish-icon">😊</span>
+          <div class="wish-title">ความสุขทุกวัน</div>
+          <p class="wish-text">ขอให้ทุกเช้าที่ตื่นมามีรอยยิ้ม ทุกวันเต็มไปด้วยช่วงเวลาเล็กๆ ที่หวาน</p>
+        </div>
+        <div class="wish-card reveal" style="transition-delay:.1s">
+          <span class="wish-icon">💪</span>
+          <div class="wish-title">สุขภาพดีแข็งแรง</div>
+          <p class="wish-text">ขอให้ร่างกายและจิตใจแข็งแรง เพื่อให้เราอยู่ด้วยกันได้นานที่สุด</p>
+        </div>
+        <div class="wish-card reveal" style="transition-delay:.2s">
+          <span class="wish-icon">🌏</span>
+          <div class="wish-title">การผจญภัยใหม่</div>
+          <p class="wish-text">ขอให้เราได้ไปสถานที่ใหม่ๆ ด้วยกัน สร้างความทรงจำที่น่าจดจำอีกมากมาย</p>
+        </div>
+        <div class="wish-card reveal" style="transition-delay:.15s">
+          <span class="wish-icon">🌙</span>
+          <div class="wish-title">ความฝันที่เป็นจริง</div>
+          <p class="wish-text">ขอให้ทุกความฝันที่เธอมีในหัวใจ ได้กลายเป็นความจริงสักวัน</p>
+        </div>
+        <div class="wish-card reveal" style="transition-delay:.25s">
+          <span class="wish-icon">🤝</span>
+          <div class="wish-title">อยู่ด้วยกันตลอดไป</div>
+          <p class="wish-text">ขอให้เราเติบโตไปพร้อมกัน เลือกกันและกันทุกวัน ไม่ว่าจะเจอ อะไรก็ตาม</p>
+        </div>
+        <div class="wish-card reveal" style="transition-delay:.35s">
+          <span class="wish-icon">🎀</span>
+          <div class="wish-title">ความรักที่ไม่เคยหมด</div>
+          <p class="wish-text">ขอให้ความรักของเราลึกขึ้นและสวยงามขึ้นทุกปีที่ผ่านไป เหมือน My Melody ที่น่ารักตลอดกาล</p>
+        </div>
+      </div>
+
+      <!-- Next anniversary countdown -->
+      <div class="next-anni reveal">
+        <div class="next-anni-label">วันครบรอบถัดไปอีก</div>
+        <div class="next-anni-days" id="next-days">—</div>
+        <div class="next-anni-sub">วัน 🎀</div>
+      </div>
+
+      <!-- Interactive wish maker -->
+      <div style="margin-top:80px;">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">✍️ Write a Wish</p>
+          <h2 class="section-title">เขียน<em>ความปรารถนา</em>ของเธอ</h2>
+          <p class="section-desc">เขียนความปรารถนาส่วนตัวของเธอไว้ที่นี่ 🌸</p>
+        </div>
+
+        <div class="wish-maker reveal">
+          <div class="wish-maker-title">🌟 ส่งความปรารถนา</div>
+          <p class="wish-maker-sub">เขียนอะไรก็ได้ที่เธออยากให้เกิดขึ้น</p>
+          <textarea class="wish-input" id="wishInput" placeholder="ฉันขอให้... 🎀"></textarea>
+          <button class="btn btn-primary wish-submit" onclick="addWish(event)">
+            🌸 ส่งความปรารถนา
+          </button>
+          <div class="wishes-list" id="wishesList"></div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:70px;" class="reveal">
+        <a href="index.html" class="btn btn-primary" onclick="launchFirework(event)">
+          🏠 กลับหน้าแรก
+        </a>
+        &nbsp;&nbsp;
+        <a href="story.html" class="btn btn-outline">
+          📖 Our Story
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <p>🎀 Made with <span class="footer-heart">❤</span> just for you — 2026</p>
+    </footer>
+  </div>
+
+  <script src="animations.js"></script>
+  <script>
+    // Next anniversary countdown
+    (function () {
+      const el = document.getElementById('next-days');
+      if (!el) return;
+      const start = new Date('2024-02-14'); // ← same date as counter
+      const now   = new Date();
+      const thisYear = new Date(now.getFullYear(), start.getMonth(), start.getDate());
+      let next = thisYear;
+      if (next <= now) next = new Date(now.getFullYear() + 1, start.getMonth(), start.getDate());
+      el.textContent = Math.ceil((next - now) / 86400000);
+    })();
+
+    // Wish maker
+    function addWish(e) {
+      launchFirework(e);
+      const input = document.getElementById('wishInput');
+      const text  = input.value.trim();
+      if (!text) return;
+      const bubble = document.createElement('div');
+      bubble.className = 'wish-bubble';
+      bubble.textContent = '🌸 ' + text;
+      document.getElementById('wishesList').appendChild(bubble);
+      input.value = '';
+    }
+
+    document.getElementById('wishInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addWish({ currentTarget: document.querySelector('.wish-submit') }); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Dancing+Script:wght@600;700&display=swap');
+
+:root {
+    /* ── My Melody Palette ── */
+    --pink: #f472b6;
+    --pink-deep: #db2777;
+    --pink-soft: #fce7f3;
+    --pink-pale: #fdf2f8;
+    --red: #f9a8d4;
+    --cream: #fff9fb;
+    --white: #ffffff;
+    --dark: #4a1942;
+    /* deep plum — replaces black */
+    --dark-soft: #6b2d5e;
+    --muted: #9d4d8a;
+    --gold: #f9a8d4;
+    --gold-light: #fbcfe8;
+
+    --gradient-page: linear-gradient(160deg, #fdf2f8 0%, #fce7f3 40%, #fdf4ff 100%);
+    --gradient-hero: linear-gradient(160deg, #fff0f7 0%, #fce7f3 50%, #fdf4ff 100%);
+    --gradient-btn: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
+    --shadow-card: 0 16px 48px rgba(219, 39, 119, 0.12);
+    --shadow-btn: 0 8px 24px rgba(219, 39, 119, 0.3);
+    --radius: 24px;
+    --radius-sm: 14px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--gradient-page);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ── CANVAS ─────────────────────────────────────────── */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 48px;
+    background: rgba(255, 240, 247, 0.82);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid rgba(244, 114, 182, 0.2);
+    box-shadow: 0 4px 24px rgba(219, 39, 119, 0.06);
+}
+
+nav .logo {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.6rem;
+    color: var(--pink-deep);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 12px rgba(219, 39, 119, 0.2);
+}
+
+nav ul {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--dark-soft);
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--pink-deep);
+    background: rgba(244, 114, 182, 0.12);
+    border-color: rgba(244, 114, 182, 0.35);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background: var(--pink-deep);
+    border-radius: 3px;
+    transition: all 0.3s;
+}
+
+/* ── PAGE WRAPPER ───────────────────────────────────── */
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+    padding-top: 80px;
+}
+
+/* ── HERO ────────────────────────────────────────────── */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+    background: radial-gradient(ellipse 90% 70% at 50% 60%, rgba(244, 114, 182, 0.13) 0%, transparent 75%),
+        var(--gradient-hero);
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(244, 114, 182, 0.12);
+    border: 2px solid rgba(244, 114, 182, 0.35);
+    border-radius: 50px;
+    padding: 6px 22px;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--pink-deep);
+    font-weight: 700;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.7s ease both;
+}
+
+.hero-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 9vw, 7rem);
+    color: var(--pink-deep);
+    text-shadow: 0 4px 24px rgba(219, 39, 119, 0.18);
+    line-height: 1.1;
+    animation: fadeInUp 0.7s 0.1s ease both;
+}
+
+.hero-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(1.3rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    color: var(--dark);
+    margin-top: 8px;
+    animation: fadeInUp 0.7s 0.2s ease both;
+}
+
+.hero-subtitle {
+    margin-top: 14px;
+    font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    animation: fadeInUp 0.7s 0.3s ease both;
+}
+
+.hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 28px auto;
+    width: 240px;
+    animation: fadeInUp 0.7s 0.38s ease both;
+}
+
+.hero-divider span {
+    flex: 1;
+    height: 2px;
+    background: rgba(244, 114, 182, 0.3);
+    border-radius: 2px;
+}
+
+.hero-divider .heart {
+    color: var(--pink-deep);
+    font-size: 1.2rem;
+    animation: pulse-heart 1.5s ease-in-out infinite;
+}
+
+/* Counter */
+.hero-counter {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.7s 0.46s ease both;
+}
+
+.counter-box {
+    background: var(--white);
+    border: 2px solid rgba(244, 114, 182, 0.25);
+    border-radius: 20px;
+    padding: 18px 26px;
+    text-align: center;
+    min-width: 90px;
+    box-shadow: 0 8px 24px rgba(219, 39, 119, 0.08);
+}
+
+.counter-num {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.2rem;
+    color: var(--pink-deep);
+    line-height: 1;
+}
+
+.counter-label {
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 700;
+}
+
+.hero-cta {
+    margin-top: 40px;
+    animation: fadeInUp 0.7s 0.54s ease both;
+}
+
+/* ── MY MELODY DECORATION ───────────────────────────── */
+.mm-deco {
+    position: absolute;
+    font-size: 1.8rem;
+    opacity: 0.2;
+    animation: float 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.92rem;
+    letter-spacing: 0.3px;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: 'Nunito', sans-serif;
+}
+
+.btn-primary {
+    background: var(--gradient-btn);
+    color: var(--white);
+    padding: 14px 36px;
+    box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 36px rgba(219, 39, 119, 0.42);
+}
+
+.btn-outline {
+    background: var(--white);
+    color: var(--pink-deep);
+    padding: 12px 30px;
+    border: 2px solid rgba(244, 114, 182, 0.5);
+}
+
+.btn-outline:hover {
+    border-color: var(--pink-deep);
+    background: var(--pink-soft);
+    transform: translateY(-2px);
+}
+
+/* ── SECTION ─────────────────────────────────────────── */
+.section {
+    padding: 90px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.section-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--pink-deep);
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.section-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.section-title em {
+    font-style: italic;
+    color: var(--pink-deep);
+}
+
+.section-desc {
+    margin-top: 12px;
+    font-size: 0.97rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.75;
+}
+
+/* ── CARDS ───────────────────────────────────────────── */
+.card {
+    background: var(--white);
+    border: 2px solid rgba(244, 114, 182, 0.15);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.01);
+    border-color: rgba(244, 114, 182, 0.4);
+    box-shadow: 0 24px 60px rgba(219, 39, 119, 0.16);
+}
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 2px solid rgba(244, 114, 182, 0.15);
+    color: var(--muted);
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 1;
+    font-weight: 600;
+}
+
+footer .footer-heart {
+    color: var(--pink-deep);
+}
+
+/* ── REVEAL ──────────────────────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* ── KEYFRAMES ───────────────────────────────────────── */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-heart {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-14px) rotate(5deg);
+    }
+}
+
+@keyframes ribbon-sway {
+
+    0%,
+    100% {
+        transform: rotate(-3deg);
+    }
+
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--pink-pale);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 4px;
+}
+
+/* ── DOTTED BG PATTERN ───────────────────────────────── */
+.dot-bg {
+    background-image: radial-gradient(rgba(244, 114, 182, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    nav {
+        padding: 14px 20px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(253, 242, 248, 0.97);
+        padding: 16px 20px 24px;
+        border-bottom: 2px solid rgba(244, 114, 182, 0.2);
+        gap: 4px;
+    }
+
+    nav ul.open {
+        display: flex;
+    }
+
+    nav ul li a {
+        display: block;
+        border-radius: 12px;
+    }
+
+    .counter-box {
+        padding: 14px 18px;
+    }
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💌 จดหมายรัก | My Melody</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .letter-wrapper { max-width: 700px; margin: 0 auto; }
+
+    .letter-paper {
+      background: var(--white);
+      border: 2px solid rgba(244,114,182,0.2);
+      border-radius: 28px; padding: 52px 56px;
+      box-shadow: 0 16px 48px rgba(219,39,119,0.1);
+      position: relative; overflow: hidden;
+    }
+    .letter-paper::before, .letter-paper::after {
+      content: '🌸'; position: absolute; font-size: 2rem; opacity: 0.15;
+    }
+    .letter-paper::before { top: 20px; left: 24px; }
+    .letter-paper::after  { bottom: 20px; right: 24px; transform: rotate(180deg); }
+
+    .letter-greeting {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.9rem; color: var(--pink-deep); margin-bottom: 28px; font-weight: 700;
+    }
+    .letter-body { font-size: 1rem; line-height: 2; color: #5b2a4f; }
+    .letter-body p { margin-bottom: 22px; }
+    .letter-highlight {
+      display: inline-block;
+      background: linear-gradient(120deg, rgba(249,168,212,0.4) 0%, rgba(244,114,182,0.25) 100%);
+      border-radius: 6px; padding: 2px 6px;
+      color: var(--pink-deep); font-weight: 700;
+    }
+    .letter-sign { margin-top: 36px; text-align: right; }
+    .letter-sign-text { font-family:'Dancing Script',cursive; font-size:1.6rem; color:var(--pink-deep); }
+    .letter-sign-small { font-size:0.83rem; color:var(--muted); margin-top:4px; }
+    .letter-ps {
+      margin-top: 32px; padding-top: 24px;
+      border-top: 2px dashed rgba(244,114,182,0.25);
+      font-size: 0.88rem; color: var(--muted); font-style: italic; line-height: 1.7;
+    }
+
+    .sticker-strip { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:40px 0 0; }
+    .sticker {
+      font-size:2.2rem; background:var(--white);
+      border:2px solid rgba(244,114,182,0.2); border-radius:16px; padding:10px 14px;
+      box-shadow:0 4px 14px rgba(219,39,119,0.08);
+      cursor:pointer; transition:all 0.3s cubic-bezier(.34,1.56,.64,1); user-select:none;
+    }
+    .sticker:hover { transform:scale(1.25) rotate(-5deg); box-shadow:0 10px 24px rgba(219,39,119,0.18); }
+
+    @media (max-width:600px) { .letter-paper { padding:32px 22px; } }
+  </style>
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+  <nav>
+    <a href="index.html" class="logo">🎀 My Melody</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <ul id="nav-links">
+      <li><a href="letter.html">💌 จดหมาย</a></li>
+      <li><a href="story.html">⏱ Timer</a></li>
+      <li><a href="gallery.html">🖼 Gallery</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <!-- Hero -->
+    <section style="padding:120px 24px 60px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 55%,rgba(244,114,182,0.11) 0%,transparent 70%),var(--gradient-hero);" class="dot-bg">
+      <p class="section-eyebrow">💌 Love Letter</p>
+      <img src="images/melody_letter.png" alt="My Melody" style="width:clamp(120px,22vw,200px);object-fit:contain;filter:drop-shadow(0 8px 24px rgba(219,39,119,0.22));animation:float 3s ease-in-out infinite;margin-bottom:10px;"/>
+      <div style="font-family:'Dancing Script',cursive;font-size:clamp(2.8rem,7vw,5rem);color:var(--pink-deep);">จดหมายรัก</div>
+      <p style="margin-top:12px;color:var(--muted);font-size:0.95rem;">คำจากหัวใจ เขียนขึ้นเพื่อเธอคนเดียว 🌸</p>
+    </section>
+
+    <section class="section" style="padding-top:60px;">
+      <div class="letter-wrapper">
+
+        <!-- envelope reveal -->
+        <div style="text-align:center;margin-bottom:40px;" class="reveal">
+          <div style="font-size:5rem;display:inline-block;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 8px 20px rgba(219,39,119,0.25));cursor:pointer;"
+               id="envelope" onclick="this.textContent='💌';this.style.transform='scale(1.2) rotate(-10deg)';setTimeout(()=>this.style.transform='',400);">💌</div>
+          <p style="font-size:0.82rem;color:var(--muted);font-style:italic;margin-top:8px;">คลิกที่ซองเพื่อเปิด 🎀</p>
+        </div>
+
+        <div class="letter-paper reveal">
+          <div class="letter-greeting">หมุอ้วรที่รัก 🎀</div>
+
+          <div class="letter-body">
+            <p>
+              <span class="letter-highlight">Happy 1 Month Anniversary</span>
+              ครบ 1 เดือนแล้วนะ 
+            </p>
+
+            <p>
+              ขอบคุณที่ยังอยู่ข้างๆกันนะ เค้ารักเบบี๋ที่สุดเลย 💖
+            </p>
+          </div>
+
+          <div class="letter-sign">
+            <div class="letter-sign-small">1 Month Anniversary</div>
+          </div>
+
+          <div class="letter-ps">
+            <strong>P.S.</strong> — เลือก My Melody เพราะมันน่ารักเหมือนเธอเลย 🎀🐰
+          </div>
+        </div>
+
+        <div class="sticker-strip reveal">
+          <div class="sticker">🎀</div><div class="sticker">🌸</div>
+          <div class="sticker">💗</div><div class="sticker">🐰</div>
+          <div class="sticker">⭐</div><div class="sticker">🍓</div>
+          <div class="sticker">💌</div><div class="sticker">🌷</div>
+        </div>
+
+        <div style="text-align:center;margin-top:50px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;" class="reveal">
+          <a href="story.html" class="btn btn-primary" onclick="launchFirework(event)">📖 Timeline</a>
+          <a href="gallery.html" class="btn btn-outline">🖼 Gallery</a>
+        </div>
+      </div>
+    </section>
+
+    <footer><p>🎀 Made with <span class="footer-heart">❤</span> just for you — 2026</p></footer>
+  </div>
+  <script src="animations.js"></script>
+</body>
+</html>
