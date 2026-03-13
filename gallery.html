@@ -8,139 +8,74 @@
   <style>
     body { background: #fdf2f8; }
 
-    /* top bar */
-    .gallery-topbar {
-      position: sticky; top: 72px; z-index: 50;
-      background: rgba(253,242,248,0.9);
-      backdrop-filter: blur(16px);
-      border-bottom: 2px solid rgba(244,114,182,0.12);
-      padding: 11px 18px;
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    }
-    .gal-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 9px 18px; border-radius: 50px;
-      font-weight: 800; font-size: 0.84rem; font-family: 'Nunito', sans-serif;
-      cursor: pointer; border: none; outline: none; transition: all 0.25s;
-    }
-    .gal-btn-primary {
-      background: var(--gradient-btn); color: var(--white);
-      box-shadow: var(--shadow-btn);
-    }
-    .gal-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(219,39,119,0.38); }
-    .gal-btn-outline {
-      background: var(--white); color: var(--pink-deep);
-      border: 2px solid rgba(244,114,182,0.4);
-    }
-    .gal-btn-outline:hover { background: var(--pink-soft); border-color: var(--pink-deep); }
-    .gal-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
-
-    .gallery-count { font-size: 0.82rem; color: var(--muted); font-weight: 700; margin-left: auto; }
-    .gallery-count span { color: var(--pink-deep); }
-
-    /* folder status badge */
-    .folder-badge {
-      font-size: 0.75rem; padding: 5px 12px; border-radius: 50px;
-      font-weight: 700; white-space: nowrap;
-    }
-    .folder-badge.linked { background: rgba(52,211,153,0.12); color: #059669; border: 1.5px solid rgba(52,211,153,0.35); }
-    .folder-badge.none   { background: rgba(244,114,182,0.08); color: var(--muted); border: 1.5px solid rgba(244,114,182,0.2); }
-
-    /* masonry wall */
     .photo-wall {
       columns: 2 160px; column-gap: 10px;
-      padding: 14px 14px 40px;
+      padding: 16px 14px 48px;
       max-width: 900px; margin: 0 auto;
     }
 
-    /* polaroid card */
     .photo-card {
       break-inside: avoid; margin-bottom: 10px;
-      background: var(--white); border-radius: 4px;
-      padding: 7px 7px 28px;
+      background: #fff; border-radius: 4px;
+      padding: 7px 7px 30px;
       box-shadow: 0 4px 18px rgba(100,30,60,0.13), 0 1px 3px rgba(100,30,60,0.08);
       position: relative; cursor: pointer;
       transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
-      animation: fadeInUp 0.35s ease both;
+      animation: fadeInUp 0.4s ease both;
     }
-    .photo-card:hover { transform: scale(1.04) rotate(-0.3deg); box-shadow: 0 18px 44px rgba(219,39,119,0.22); z-index: 5; }
-    .photo-card:nth-child(3n)   { transform: rotate(0.7deg); }
+    .photo-card:hover {
+      transform: scale(1.04) rotate(-0.3deg);
+      box-shadow: 0 18px 44px rgba(219,39,119,0.22);
+      z-index: 5;
+    }
+    .photo-card:nth-child(3n)   { transform: rotate(0.8deg); }
     .photo-card:nth-child(3n):hover { transform: scale(1.04) rotate(0deg); }
-    .photo-card:nth-child(3n+1) { transform: rotate(-0.5deg); }
+    .photo-card:nth-child(3n+1) { transform: rotate(-0.6deg); }
     .photo-card:nth-child(3n+1):hover { transform: scale(1.04) rotate(0deg); }
 
-    .photo-img { width: 100%; display: block; border-radius: 2px; object-fit: cover; }
-    .photo-caption {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 3px 6px 6px; text-align: center;
-      font-size: 0.65rem; color: var(--muted); font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-    }
-    .photo-del {
-      position: absolute; top: 5px; right: 5px;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(219,39,119,0.82); border: none; color: #fff;
-      font-size: 0.68rem; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; opacity: 0; transition: opacity 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-weight: 700;
-    }
-    .photo-card:hover .photo-del { opacity: 1; }
-
-    /* empty state */
-    .empty-state {
-      text-align: center; padding: 50px 24px;
-      display: none; flex-direction: column; align-items: center; gap: 14px;
-    }
-    .empty-state.show { display: flex; }
-    .empty-img { width: 130px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 6px 14px rgba(219,39,119,0.2)); opacity: 0.8; }
-    .empty-title { font-family:'Dancing Script',cursive; font-size:1.7rem; color:var(--pink-deep); }
-    .empty-sub { font-size:0.87rem; color:var(--muted); max-width:300px; line-height:1.65; }
-
-    /* no-support warning */
-    .no-support {
-      display: none; text-align: center; padding: 40px 24px;
-      background: #fff5f7; border: 2px solid rgba(244,114,182,0.2);
-      border-radius: 20px; max-width: 480px; margin: 40px auto;
+    .photo-img {
+      width: 100%; display: block;
+      border-radius: 2px; object-fit: cover;
     }
 
     /* Lightbox */
     .lightbox {
       display: none; position: fixed; inset: 0;
-      background: rgba(26,4,14,0.9); backdrop-filter: blur(14px);
+      background: rgba(20,4,12,0.92); backdrop-filter: blur(14px);
       z-index: 1000; align-items: center; justify-content: center; padding: 20px;
     }
     .lightbox.open { display: flex; }
-    .lightbox-img {
-      max-width: min(92vw, 760px); max-height: 88vh;
+    .lb-img {
+      max-width: min(94vw, 800px); max-height: 90vh;
       object-fit: contain; border-radius: 6px;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.55); animation: bounce-in 0.3s ease;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      animation: bounce-in 0.3s ease;
     }
-    .lightbox-close {
-      position: absolute; top: 16px; right: 20px;
+    .lb-close {
+      position: absolute; top: 14px; right: 18px;
       background: rgba(255,255,255,0.1); border: none; color: #fff;
-      font-size: 1.7rem; cursor: pointer; border-radius: 50%;
+      font-size: 1.6rem; cursor: pointer; border-radius: 50%;
       width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
       transition: background 0.2s;
     }
-    .lightbox-close:hover { background: rgba(219,39,119,0.6); }
-    .lightbox-nav {
+    .lb-close:hover { background: rgba(219,39,119,0.6); }
+    .lb-nav {
       position: absolute; top: 50%; transform: translateY(-50%);
       background: rgba(255,255,255,0.1); border: none; color: #fff;
       font-size: 2rem; cursor: pointer; border-radius: 50%;
-      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
       transition: background 0.2s;
     }
-    .lightbox-nav:hover { background: rgba(244,114,182,0.55); }
+    .lb-nav:hover { background: rgba(244,114,182,0.5); }
     .lb-prev { left: 12px; } .lb-next { right: 12px; }
 
     @media (max-width: 480px) {
       .photo-wall { columns: 2 110px; column-gap: 8px; padding: 10px; }
-      .gallery-topbar { top: 60px; }
     }
   </style>
 </head>
 <body>
   <canvas id="particles-canvas"></canvas>
-
   <nav>
     <a href="index.html" class="logo">🎀 My Melody</a>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -151,182 +86,49 @@
     </ul>
   </nav>
 
-  <!-- toolbar -->
-  <div class="gallery-topbar" style="margin-top:72px;">
-    <button class="gal-btn gal-btn-outline" id="btnFolder" onclick="pickFolder()">📁 เลือกโฟลเดอร์</button>
-    <button class="gal-btn gal-btn-primary" id="btnAdd" onclick="addPhotos()" disabled>➕ เพิ่มรูป</button>
-    <div class="folder-badge none" id="folderBadge">ยังไม่ได้เลือกโฟลเดอร์</div>
-    <div class="gallery-count">📸 <span id="photo-count">0</span> รูป</div>
-  </div>
+  <div class="page-wrapper">
+    <!-- Hero -->
+    <section style="padding:120px 24px 48px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 55%,rgba(244,114,182,0.11) 0%,transparent 70%),var(--gradient-hero);" class="dot-bg">
+      <p class="section-eyebrow">🖼 Gallery</p>
+      <img src="images/melody_flowers.png" alt="My Melody" style="width:clamp(90px,16vw,150px);object-fit:contain;filter:drop-shadow(0 8px 24px rgba(219,39,119,0.22));animation:float 3.5s ease-in-out infinite;margin-bottom:8px;"/>
+      <div style="font-family:'Dancing Script',cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:var(--pink-deep);">Our Memories</div>
+      <p style="margin-top:10px;color:var(--muted);font-size:0.92rem;">กดที่รูปเพื่อดูใหญ่ๆ ได้เลย 💕</p>
+    </section>
 
-  <!-- no browser support -->
-  <div class="no-support" id="noSupport">
-    <div style="font-size:2.5rem">⚠️</div>
-    <div style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--pink-deep);margin:8px 0;">เบราว์เซอร์ไม่รองรับ</div>
-    <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;">
-      ฟีเจอร์นี้ต้องใช้ <strong>Chrome</strong> หรือ <strong>Edge</strong> เวอร์ชันล่าสุด<br/>
-      กรุณาเปิดด้วย Chrome แล้วลองใหม่นะ 🌸
-    </p>
-  </div>
+    <!-- Photo wall -->
+    <div class="photo-wall" id="photoWall">
+      <!-- photos from photos/ folder — เพิ่มรูปใหม่ที่นี่ -->
+      <div class="photo-card" onclick="openLight(0)"><img class="photo-img" src="photos/D5D99F82-21AE-4A0E-8DF8-DECDBDE94C55.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(1)"><img class="photo-img" src="photos/DSC00823.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(2)"><img class="photo-img" src="photos/DSC00828.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(3)"><img class="photo-img" src="photos/DSC01100.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(4)"><img class="photo-img" src="photos/DSC01110.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(5)"><img class="photo-img" src="photos/IMG_2296.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(6)"><img class="photo-img" src="photos/IMG_2298.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(7)"><img class="photo-img" src="photos/IMG_6092.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(8)"><img class="photo-img" src="photos/IMG_6335.jpg" loading="lazy"/></div>
+      <div class="photo-card" onclick="openLight(9)"><img class="photo-img" src="photos/IMG_6341.jpg" loading="lazy"/></div>
+    </div>
 
-  <!-- empty state -->
-  <div class="empty-state" id="emptyState">
-    <img src="images/melody_flowers.png" alt="My Melody" class="empty-img"/>
-    <div class="empty-title">ยังไม่มีรูปเลย 🌸</div>
-    <p class="empty-sub">
-      กด <strong>"เลือกโฟลเดอร์"</strong> เพื่อเลือกโฟลเดอร์ <code>photos</code> ที่อยู่ในโปรเจกต์<br/>
-      แล้วกด <strong>"เพิ่มรูป"</strong> เพื่ออัปโหลดได้เลย 💕
-    </p>
+    <footer><p>🎀 Made with <span class="footer-heart">❤</span> just for you — 2026</p></footer>
   </div>
-
-  <!-- photo wall -->
-  <div class="photo-wall" id="photoWall"></div>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" onclick="closeLightOnBg(event)">
-    <button class="lightbox-close" onclick="closeLight()">✕</button>
-    <button class="lightbox-nav lb-prev" onclick="navLight(-1)">‹</button>
-    <img class="lightbox-img" id="lb-img" src="" alt=""/>
-    <button class="lightbox-nav lb-next" onclick="navLight(1)">›</button>
+  <div class="lightbox" id="lightbox" onclick="if(event.target.id==='lightbox')closeLight()">
+    <button class="lb-close" onclick="closeLight()">✕</button>
+    <button class="lb-nav lb-prev" onclick="navLight(-1)">‹</button>
+    <img class="lb-img" id="lbImg" src="" alt=""/>
+    <button class="lb-nav lb-next" onclick="navLight(1)">›</button>
   </div>
 
   <script src="animations.js"></script>
   <script>
-    // ── Browser support check ──
-    const supported = 'showDirectoryPicker' in window;
-    if (!supported) document.getElementById('noSupport').style.display = 'block';
+    const imgs = Array.from(document.querySelectorAll('.photo-img'));
+    let lbIdx = 0;
 
-    // ── State ──
-    let dirHandle = null;          // FileSystemDirectoryHandle
-    let photos    = [];            // [{ name, url, handle }]
-    let lbIndex   = 0;
-
-    // ── Persist directory handle via IndexedDB ──
-    const DB_NAME = 'mmGalleryDB', DB_VER = 1, STORE = 'handles';
-
-    function openDB() {
-      return new Promise((res, rej) => {
-        const req = indexedDB.open(DB_NAME, DB_VER);
-        req.onupgradeneeded = e => e.target.result.createObjectStore(STORE);
-        req.onsuccess = e => res(e.target.result);
-        req.onerror   = e => rej(e);
-      });
-    }
-    async function saveHandle(h) {
-      const db = await openDB();
-      return new Promise((res, rej) => {
-        const tx = db.transaction(STORE, 'readwrite');
-        tx.objectStore(STORE).put(h, 'dir');
-        tx.oncomplete = res; tx.onerror = rej;
-      });
-    }
-    async function loadHandle() {
-      const db = await openDB();
-      return new Promise((res) => {
-        const tx = db.transaction(STORE, 'readonly');
-        const req = tx.objectStore(STORE).get('dir');
-        req.onsuccess = e => res(e.target.result || null);
-        req.onerror   = () => res(null);
-      });
-    }
-
-    // ── Pick folder ──
-    async function pickFolder() {
-      if (!supported) return;
-      try {
-        const h = await window.showDirectoryPicker({ mode: 'readwrite', startIn: 'pictures' });
-        dirHandle = h;
-        await saveHandle(h);
-        setFolderUI(h.name);
-        await loadPhotos();
-      } catch { /* user cancelled */ }
-    }
-
-    function setFolderUI(name) {
-      const badge = document.getElementById('folderBadge');
-      badge.className = 'folder-badge linked';
-      badge.textContent = '📁 ' + name;
-      document.getElementById('btnAdd').disabled = false;
-    }
-
-    // ── Read all images from folder ──
-    async function loadPhotos() {
-      if (!dirHandle) return;
-      photos = [];
-      // revoke old object URLs
-      for (const p of photos) if (p.url) URL.revokeObjectURL(p.url);
-
-      for await (const [name, handle] of dirHandle.entries()) {
-        if (handle.kind !== 'file') continue;
-        if (!/\.(jpe?g|png|gif|webp|heic|bmp|avif)$/i.test(name)) continue;
-        const file = await handle.getFile();
-        const url  = URL.createObjectURL(file);
-        photos.push({ name, url, handle });
-      }
-      // sort by name
-      photos.sort((a, b) => a.name.localeCompare(b.name));
-      render();
-    }
-
-    // ── Add photos ──
-    async function addPhotos() {
-      if (!dirHandle) { alert('กรุณาเลือกโฟลเดอร์ก่อนนะ 🎀'); return; }
-      try {
-        const handles = await window.showOpenFilePicker({
-          multiple: true,
-          types: [{ description: 'Images', accept: { 'image/*': ['.jpg','.jpeg','.png','.gif','.webp','.heic','.avif'] } }]
-        });
-        for (const h of handles) {
-          const file = await h.getFile();
-          // write into our chosen directory
-          const destHandle = await dirHandle.getFileHandle(file.name, { create: true });
-          const writable   = await destHandle.createWritable();
-          await writable.write(file);
-          await writable.close();
-        }
-        await loadPhotos();
-      } catch { /* user cancelled */ }
-    }
-
-    // ── Delete ──
-    async function deletePhoto(e, idx) {
-      e.stopPropagation();
-      if (!confirm('ลบรูปนี้ออกจากโฟลเดอร์เลยนะ?')) return;
-      const p = photos[idx];
-      try {
-        await dirHandle.removeEntry(p.name);
-        URL.revokeObjectURL(p.url);
-        await loadPhotos();
-      } catch (err) { alert('ลบไม่ได้: ' + err.message); }
-    }
-
-    // ── Render ──
-    function render() {
-      const wall  = document.getElementById('photoWall');
-      const empty = document.getElementById('emptyState');
-      document.getElementById('photo-count').textContent = photos.length;
-
-      empty.className = 'empty-state' + (photos.length === 0 ? ' show' : '');
-      wall.innerHTML  = '';
-
-      photos.forEach((p, i) => {
-        const card = document.createElement('div');
-        card.className = 'photo-card';
-        card.innerHTML = `
-          <img class="photo-img" src="${p.url}" alt="${p.name}" loading="lazy"/>
-          <div class="photo-caption">${p.name.replace(/\.[^.]+$/,'')}</div>
-          <button class="photo-del" title="ลบ">✕</button>
-        `;
-        card.querySelector('.photo-del').addEventListener('click', e => deletePhoto(e, i));
-        card.querySelector('.photo-img').addEventListener('click', () => openLight(i));
-        wall.appendChild(card);
-      });
-    }
-
-    // ── Lightbox ──
-    function openLight(idx) {
-      lbIndex = idx;
-      document.getElementById('lb-img').src = photos[idx].url;
+    function openLight(i) {
+      lbIdx = i;
+      document.getElementById('lbImg').src = imgs[i].src;
       document.getElementById('lightbox').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -334,42 +136,19 @@
       document.getElementById('lightbox').classList.remove('open');
       document.body.style.overflow = '';
     }
-    function closeLightOnBg(e) { if (e.target.id === 'lightbox') closeLight(); }
-    function navLight(dir) {
-      lbIndex = (lbIndex + dir + photos.length) % photos.length;
-      const img = document.getElementById('lb-img');
-      img.style.opacity = '0';
-      setTimeout(() => { img.src = photos[lbIndex].url; img.style.opacity = '1'; }, 140);
+    function navLight(d) {
+      lbIdx = (lbIdx + d + imgs.length) % imgs.length;
+      const el = document.getElementById('lbImg');
+      el.style.opacity = '0';
+      setTimeout(() => { el.src = imgs[lbIdx].src; el.style.opacity = '1'; }, 130);
     }
     document.addEventListener('keydown', e => {
-      if (!document.getElementById('lightbox').classList.contains('open')) return;
-      if (e.key === 'Escape')     closeLight();
-      if (e.key === 'ArrowLeft')  navLight(-1);
+      const lb = document.getElementById('lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')    closeLight();
+      if (e.key === 'ArrowLeft') navLight(-1);
       if (e.key === 'ArrowRight') navLight(1);
     });
-
-    // ── Auto-restore folder on load ──
-    (async () => {
-      if (!supported) return;
-      const h = await loadHandle();
-      if (!h) { document.getElementById('emptyState').className = 'empty-state show'; return; }
-      try {
-        // ask for permission if needed
-        const perm = await h.queryPermission({ mode: 'readwrite' });
-        if (perm === 'granted') {
-          dirHandle = h; setFolderUI(h.name); await loadPhotos();
-        } else {
-          // show re-grant prompt
-          document.getElementById('emptyState').className = 'empty-state show';
-          const badge = document.getElementById('folderBadge');
-          badge.className = 'folder-badge none';
-          badge.textContent = '⚠️ กด "เลือกโฟลเดอร์" เพื่อกู้คืน';
-        }
-      } catch { document.getElementById('emptyState').className = 'empty-state show'; }
-    })();
-
-    // init
-    render();
   </script>
 </body>
 </html>
